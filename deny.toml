@@ -1,0 +1,41 @@
+# Supply-chain policy for `cargo deny check`.
+
+[advisories]
+unmaintained = "workspace"
+yanked = "deny"
+
+[licenses]
+allow = [
+    "0BSD",
+    "Apache-2.0",
+    "BSD-3-Clause",
+    "CC0-1.0",
+    "CDLA-Permissive-2.0",
+    "ISC",
+    "MIT",
+    "MIT-0",
+    "Unicode-3.0",
+    "Unlicense",
+    "Zlib",
+]
+confidence-threshold = 0.8
+
+# target-lexicon is only Apache-2.0 WITH LLVM-exception.
+[[licenses.exceptions]]
+allow = ["Apache-2.0 WITH LLVM-exception"]
+name = "target-lexicon"
+
+[licenses.private]
+ignore = true
+
+[bans]
+multiple-versions = "warn"
+wildcards = "allow"
+
+[sources]
+unknown-registry = "deny"
+unknown-git = "deny"
+allow-registry = [
+    "https://github.com/rust-lang/crates.io-index",
+]
+allow-git = []

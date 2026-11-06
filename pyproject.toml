@@ -1,0 +1,27 @@
+[build-system]
+requires = ["maturin>=1.9,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "ninot-bitbucket"
+dynamic = ["version"]
+description = "Stateful Bitbucket protocol fake for deterministic client scenarios"
+requires-python = ">=3.12"
+dependencies = ["httpx>=0.27,<1"]
+license = "MIT"
+
+[dependency-groups]
+release = ["setuptools-scm>=8"]
+dev = ["pytest>=8", "pytest-asyncio>=0.24", "ruff>=0.16.10", "mypy>=1.15"]
+
+[tool.maturin]
+manifest-path = "python/Cargo.toml"
+python-source = "python/src"
+module-name = "ninot_bitbucket._native"
+bindings = "pyo3"
+
+[tool.mypy]
+strict = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

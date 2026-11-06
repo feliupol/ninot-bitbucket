@@ -1,0 +1,141 @@
+{
+  "sources": [
+    {
+      "url": "https://api.bitbucket.org/swagger.json",
+      "sha256": "2a62da46eb7906f4cec03c9791c15cdd7f2b322aed8152672a0025edf820563a",
+      "version": "2.0"
+    }
+  ],
+  "operations": [
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "404",
+        "410"
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}",
+      "operation_id": null,
+      "response_statuses": [
+        "204",
+        "403",
+        "404"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "403",
+        "404"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "400",
+        "401"
+      ]
+    },
+    {
+      "method": "PUT",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "201",
+        "400",
+        "401"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pullrequests",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "401",
+        "404"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pullrequests",
+      "operation_id": null,
+      "response_statuses": [
+        "201",
+        "400",
+        "401"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "401",
+        "404"
+      ]
+    },
+    {
+      "method": "PUT",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "400",
+        "401",
+        "404"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/statuses",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "401",
+        "404"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/src/{commit}/{path}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "404",
+        "555"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/user",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "401"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/workspaces/{workspace}/pullrequests/{selected_user}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "404"
+      ]
+    }
+  ]
+}

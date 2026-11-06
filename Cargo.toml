@@ -1,0 +1,40 @@
+[workspace]
+members = [".", "python"]
+resolver = "3"
+
+[package]
+name = "ninot-bitbucket"
+version = "2026.45.0"
+edition = "2024"
+rust-version = "1.88"
+description = "In-memory fake of the Bitbucket Cloud REST API for end-to-end tests"
+license = "MIT"
+repository = "https://github.com/feliupol/ninot-bitbucket"
+readme = "README.md"
+keywords = ["testing", "fake", "mock", "bitbucket", "fault-injection"]
+categories = ["development-tools::testing", "web-programming::http-server"]
+include = ["/src/**", "/Cargo.toml", "/Cargo.lock", "/README.md", "/LICENSE", "/CHANGELOG.md"]
+
+[lib]
+name = "ninot_bitbucket"
+
+[dependencies]
+axum = { version = "0.8", default-features = false, features = ["http1", "tokio"] }
+base64 = "0.22"
+ninot-common = { version = "2026.45.2", features = ["profile", "server", "state"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tokio = { version = "1", features = ["time"] }
+url = "2"
+
+[lints.rust]
+missing_docs = "deny"
+
+[lints.clippy]
+doc_markdown = "warn"
+missing_docs_in_private_items = "deny"
+missing_errors_doc = "deny"
+missing_panics_doc = "deny"
+
+[profile.dev]
+debug = 0
