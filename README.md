@@ -20,9 +20,22 @@ with Server() as server:
 - Build statuses and absolute next-page URLs
 - Raw file contents on the main branch (`/src/{mainbranch}/{path}`), seeded with `Repository.add_file(path, content)`; directory listings and `format` are not modeled
 
-[Pinned operation metadata](spec/operations.json) records the upstream sources and digests.
+The [operation catalog](spec/bitbucket-cloud-operations.json) is extracted from the full Bitbucket
+Swagger 2.0 description and includes every method and path. The [coverage map](spec/operations.json)
+labels every operation `supported` or `unsupported`; its source SHA-256 pins the full upstream
+description. CI checks that the map matches the complete catalog, supported operations do not fall
+through to 501, and unsupported operations return 501.
 
 Unknown operations return HTTP 501. This service models the listed protocol behavior, rather than an entire production installation.
+
+To refresh the upstream snapshot and coverage map, run:
+
+```bash
+python3 scripts/bitbucket_spec_coverage.py --update-upstream
+```
+
+New upstream operations default to `unsupported`. When adding a handler, change its entry to
+`supported` and add protocol coverage for its behavior.
 
 ## Fixture controls
 

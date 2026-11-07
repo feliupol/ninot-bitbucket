@@ -205,14 +205,8 @@ fn repo_operation(
             )
         }
         ("POST", "/pullrequests") => create_pull_request(state, &key, body),
-        ("GET", suffix)
-            if suffix.starts_with("/pullrequests/") && suffix.ends_with("/statuses") =>
-        {
-            let id = pull_request_id(
-                suffix
-                    .trim_start_matches("/pullrequests/")
-                    .trim_end_matches("/statuses"),
-            );
+        ("GET", suffix) if pull_request_status_id(suffix).is_some() => {
+            let id = pull_request_status_id(suffix);
             let Some(id) = id else {
                 return json_response(
                     StatusCode::NOT_FOUND,
@@ -229,12 +223,9 @@ fn repo_operation(
                 page_response(uri, headers, query, pull.statuses.clone(), "GET /repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/statuses")
             })
         }
-        ("GET", suffix) if suffix.starts_with("/pullrequests/") => {
-            let Some(id) = pull_request_id(suffix.trim_start_matches("/pullrequests/")) else {
-                return not_found(
-                    &format!("no such PR: {key}#{suffix}"),
-                    "GET /repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}",
-                );
+        ("GET", suffix) if pull_request_resource_id(suffix).is_some() => {
+            let Some(id) = pull_request_resource_id(suffix) else {
+                unreachable!("the match guard validated the pull request id")
             };
             state.read(|state| {
                 state.repositories.get(&key)
@@ -245,12 +236,9 @@ fn repo_operation(
                     )
             })
         }
-        ("PUT", suffix) if suffix.starts_with("/pullrequests/") => {
-            let Some(id) = pull_request_id(suffix.trim_start_matches("/pullrequests/")) else {
-                return not_found(
-                    &format!("no such PR: {key}#{suffix}"),
-                    "PUT /repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}",
-                );
+        ("PUT", suffix) if pull_request_resource_id(suffix).is_some() => {
+            let Some(id) = pull_request_resource_id(suffix) else {
+                unreachable!("the match guard validated the pull request id")
             };
             update_pull_request(state, &key, id, body)
         }
@@ -577,8 +565,16 @@ fn strip_quotes(value: &str) -> &str {
 }
 
 /// Parses a route PR number, rejecting nested path components.
-fn pull_request_id(value: &str) -> Option<u64> {
+fn pull_request_resource_id(suffix: &str) -> Option<u64> {
+    let value = suffix.strip_prefix("/pullrequests/")?;
     (!value.contains('/')).then(|| value.parse().ok()).flatten()
+}
+
+/// Recognizes only the status resource path, leaving unknown nested paths for the 501 fallback.
+fn pull_request_status_id(suffix: &str) -> Option<u64> {
+    let value = suffix.strip_prefix("/pullrequests/")?;
+    let (id, resource) = value.split_once('/')?;
+    (resource == "statuses").then(|| id.parse().ok()).flatten()
 }
 
 /// Parses query parameters into an owned map.

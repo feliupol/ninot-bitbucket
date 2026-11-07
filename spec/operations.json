@@ -2,11 +2,66 @@
   "sources": [
     {
       "url": "https://api.bitbucket.org/swagger.json",
-      "sha256": "2a62da46eb7906f4cec03c9791c15cdd7f2b322aed8152672a0025edf820563a",
-      "version": "2.0"
+      "sha256": "a3b9752d63d75b08bc29c0f731ebdeaafb90828afd13d90b3664a85b9c6b2db5",
+      "version": "2.0",
+      "catalog_sha256": "35cb959040fc07b2f79400dd7327bc6f2c53eac0932543e689c3868935a0a597"
     }
   ],
   "operations": [
+    {
+      "method": "PUT",
+      "path": "/2.0/addon",
+      "operation_id": null,
+      "response_statuses": [
+        "204",
+        "400",
+        "401",
+        "403"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "DELETE",
+      "path": "/2.0/addon",
+      "operation_id": null,
+      "response_statuses": [
+        "204",
+        "401",
+        "403"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/addon/{addon_key}/client-key",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "401",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/hook_events",
+      "operation_id": "list_hook_events",
+      "response_statuses": [
+        "200"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/hook_events/{subject_type}",
+      "operation_id": "list_hook_events_for_resource",
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
     {
       "method": "GET",
       "path": "/2.0/repositories/{workspace}",
@@ -15,7 +70,42 @@
         "200",
         "404",
         "410"
-      ]
+      ],
+      "implementation": "supported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "403",
+        "404"
+      ],
+      "implementation": "supported"
+    },
+    {
+      "method": "POST",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "400",
+        "401"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "PUT",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "201",
+        "400",
+        "401"
+      ],
+      "implementation": "unsupported"
     },
     {
       "method": "DELETE",
@@ -25,38 +115,1437 @@
         "204",
         "403",
         "404"
-      ]
+      ],
+      "implementation": "unsupported"
     },
     {
       "method": "GET",
-      "path": "/2.0/repositories/{workspace}/{repo_slug}",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/branch-restrictions",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "401",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "POST",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/branch-restrictions",
+      "operation_id": null,
+      "response_statuses": [
+        "201",
+        "401",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/branch-restrictions/{id}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "401",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "PUT",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/branch-restrictions/{id}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "401",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "DELETE",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/branch-restrictions/{id}",
+      "operation_id": null,
+      "response_statuses": [
+        "204",
+        "401",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/branching-model",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "401",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/branching-model/settings",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "401",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "PUT",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/branching-model/settings",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/commit/{commit}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "POST",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/commit/{commit}/approve",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "DELETE",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/commit/{commit}/approve",
+      "operation_id": null,
+      "response_statuses": [
+        "204",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/commit/{commit}/comments",
+      "operation_id": null,
+      "response_statuses": [
+        "200"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "POST",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/commit/{commit}/comments",
+      "operation_id": null,
+      "response_statuses": [
+        "201",
+        "400",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/commit/{commit}/comments/{comment_id}",
+      "operation_id": null,
+      "response_statuses": [
+        "200"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "PUT",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/commit/{commit}/comments/{comment_id}",
+      "operation_id": null,
+      "response_statuses": [
+        "201",
+        "400"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "DELETE",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/commit/{commit}/comments/{comment_id}",
+      "operation_id": null,
+      "response_statuses": [
+        "204",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/commit/{commit}/properties/{app_key}/{property_name}",
+      "operation_id": "getCommitHostedPropertyValue",
+      "response_statuses": [
+        "200"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "PUT",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/commit/{commit}/properties/{app_key}/{property_name}",
+      "operation_id": "updateCommitHostedPropertyValue",
+      "response_statuses": [
+        "204"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "DELETE",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/commit/{commit}/properties/{app_key}/{property_name}",
+      "operation_id": "deleteCommitHostedPropertyValue",
+      "response_statuses": [
+        "204"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/commit/{commit}/pullrequests",
+      "operation_id": "getPullrequestsForCommit",
+      "response_statuses": [
+        "200",
+        "202",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/commit/{commit}/reports",
+      "operation_id": "getReportsForCommit",
+      "response_statuses": [
+        "200"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/commit/{commit}/reports/{reportId}",
+      "operation_id": "getReport",
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "PUT",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/commit/{commit}/reports/{reportId}",
+      "operation_id": "createOrUpdateReport",
+      "response_statuses": [
+        "200",
+        "400"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "DELETE",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/commit/{commit}/reports/{reportId}",
+      "operation_id": "deleteReport",
+      "response_statuses": [
+        "204"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/commit/{commit}/reports/{reportId}/annotations",
+      "operation_id": "getAnnotationsForReport",
+      "response_statuses": [
+        "200"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "POST",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/commit/{commit}/reports/{reportId}/annotations",
+      "operation_id": "bulkCreateOrUpdateAnnotations",
+      "response_statuses": [
+        "200"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/commit/{commit}/reports/{reportId}/annotations/{annotationId}",
+      "operation_id": "getAnnotation",
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "PUT",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/commit/{commit}/reports/{reportId}/annotations/{annotationId}",
+      "operation_id": "createOrUpdateAnnotation",
+      "response_statuses": [
+        "200",
+        "400"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "DELETE",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/commit/{commit}/reports/{reportId}/annotations/{annotationId}",
+      "operation_id": "deleteAnnotation",
+      "response_statuses": [
+        "204"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/commit/{commit}/statuses",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "401",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "POST",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/commit/{commit}/statuses/build",
+      "operation_id": null,
+      "response_statuses": [
+        "201",
+        "401",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/commit/{commit}/statuses/build/{key}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "401",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "PUT",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/commit/{commit}/statuses/build/{key}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "401",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/commits",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "POST",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/commits",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/commits/{revision}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "POST",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/commits/{revision}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/default-reviewers",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "403"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/default-reviewers/{target_username}",
       "operation_id": null,
       "response_statuses": [
         "200",
         "403",
         "404"
-      ]
-    },
-    {
-      "method": "POST",
-      "path": "/2.0/repositories/{workspace}/{repo_slug}",
-      "operation_id": null,
-      "response_statuses": [
-        "200",
-        "400",
-        "401"
-      ]
+      ],
+      "implementation": "unsupported"
     },
     {
       "method": "PUT",
-      "path": "/2.0/repositories/{workspace}/{repo_slug}",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/default-reviewers/{target_username}",
       "operation_id": null,
       "response_statuses": [
         "200",
+        "400",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "DELETE",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/default-reviewers/{target_username}",
+      "operation_id": null,
+      "response_statuses": [
+        "204",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/deploy-keys",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "POST",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/deploy-keys",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "400",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/deploy-keys/{key_id}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "PUT",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/deploy-keys/{key_id}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "400",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "DELETE",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/deploy-keys/{key_id}",
+      "operation_id": null,
+      "response_statuses": [
+        "204",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/deployments",
+      "operation_id": "getDeploymentsForRepository",
+      "response_statuses": [
+        "200"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/deployments/{deployment_uuid}",
+      "operation_id": "getDeploymentForRepository",
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/deployments_config/environments/{environment_uuid}/variables",
+      "operation_id": "getDeploymentVariables",
+      "response_statuses": [
+        "200"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "POST",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/deployments_config/environments/{environment_uuid}/variables",
+      "operation_id": "createDeploymentVariable",
+      "response_statuses": [
+        "201",
+        "404",
+        "409"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "PUT",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/deployments_config/environments/{environment_uuid}/variables/{variable_uuid}",
+      "operation_id": "updateDeploymentVariable",
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "DELETE",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/deployments_config/environments/{environment_uuid}/variables/{variable_uuid}",
+      "operation_id": "deleteDeploymentVariable",
+      "response_statuses": [
+        "204",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/diff/{spec}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "555"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/diffstat/{spec}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "555"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/downloads",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "403"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "POST",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/downloads",
+      "operation_id": null,
+      "response_statuses": [
         "201",
         "400",
-        "401"
-      ]
+        "403",
+        "406"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/downloads/{filename}",
+      "operation_id": null,
+      "response_statuses": [
+        "302",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "DELETE",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/downloads/{filename}",
+      "operation_id": null,
+      "response_statuses": [
+        "204",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/effective-branching-model",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "401",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/effective-default-reviewers",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "403"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/environments",
+      "operation_id": "getEnvironmentsForRepository",
+      "response_statuses": [
+        "200"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "POST",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/environments",
+      "operation_id": "createEnvironment",
+      "response_statuses": [
+        "201",
+        "404",
+        "409"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/environments/{environment_uuid}",
+      "operation_id": "getEnvironmentForRepository",
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "DELETE",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/environments/{environment_uuid}",
+      "operation_id": "deleteEnvironmentForRepository",
+      "response_statuses": [
+        "204",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "POST",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/environments/{environment_uuid}/changes",
+      "operation_id": "updateEnvironmentForRepository",
+      "response_statuses": [
+        "202",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/file-conflicts/{spec}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/filehistory/{commit}/{path}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/forks",
+      "operation_id": null,
+      "response_statuses": [
+        "200"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "POST",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/forks",
+      "operation_id": null,
+      "response_statuses": [
+        "201"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/hooks",
+      "operation_id": "list_repository_hooks",
+      "response_statuses": [
+        "200",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "POST",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/hooks",
+      "operation_id": "create_repository_hook",
+      "response_statuses": [
+        "201",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/hooks/{uid}",
+      "operation_id": "get_repository_hook",
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "PUT",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/hooks/{uid}",
+      "operation_id": "update_repository_hook",
+      "response_statuses": [
+        "200",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "DELETE",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/hooks/{uid}",
+      "operation_id": "delete_repository_hook",
+      "response_statuses": [
+        "204",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/merge-base/{revspec}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "401",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/merge-queues",
+      "operation_id": "listMergeQueues",
+      "response_statuses": [
+        "200",
+        "401",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/merge-queues/{merge_queue_uuid}",
+      "operation_id": "getMergeQueue",
+      "response_statuses": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/merge-queues/{merge_queue_uuid}/queue",
+      "operation_id": "listMergeQueuePullRequests",
+      "response_statuses": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/merge-queues/{merge_queue_uuid}/queue/{pullrequest_id}",
+      "operation_id": "getMergeQueuePullRequest",
+      "response_statuses": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "DELETE",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/merge-queues/{merge_queue_uuid}/queue/{pullrequest_id}",
+      "operation_id": "removePullRequestFromMergeQueue",
+      "response_statuses": [
+        "202",
+        "400",
+        "401",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/override-settings",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "PUT",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/override-settings",
+      "operation_id": null,
+      "response_statuses": [
+        "204",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/patch/{spec}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "555"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/permissions-config/groups",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "401",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/permissions-config/groups/{group_slug}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "401",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "PUT",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/permissions-config/groups/{group_slug}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "400",
+        "401",
+        "402",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "DELETE",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/permissions-config/groups/{group_slug}",
+      "operation_id": null,
+      "response_statuses": [
+        "204",
+        "401",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/permissions-config/users",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "401",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/permissions-config/users/{selected_user_id}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "401",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "PUT",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/permissions-config/users/{selected_user_id}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "400",
+        "401",
+        "402",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "DELETE",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/permissions-config/users/{selected_user_id}",
+      "operation_id": null,
+      "response_statuses": [
+        "204",
+        "401",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pipelines",
+      "operation_id": "getPipelinesForRepository",
+      "response_statuses": [
+        "200"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "POST",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pipelines",
+      "operation_id": "createPipelineForRepository",
+      "response_statuses": [
+        "201",
+        "400",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pipelines-config/caches",
+      "operation_id": "getRepositoryPipelineCaches",
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "DELETE",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pipelines-config/caches",
+      "operation_id": "deleteRepositoryPipelineCaches",
+      "response_statuses": [
+        "204",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "DELETE",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pipelines-config/caches/{cache_uuid}",
+      "operation_id": "deleteRepositoryPipelineCache",
+      "response_statuses": [
+        "204",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pipelines-config/caches/{cache_uuid}/content-uri",
+      "operation_id": "getRepositoryPipelineCacheContentURI",
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pipelines-config/runners",
+      "operation_id": "getRepositoryRunners",
+      "response_statuses": [
+        "200"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "POST",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pipelines-config/runners",
+      "operation_id": "createRepositoryRunner",
+      "response_statuses": [
+        "200",
+        "400",
+        "409"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pipelines-config/runners/{runner_uuid}",
+      "operation_id": "getRepositoryRunner",
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "PUT",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pipelines-config/runners/{runner_uuid}",
+      "operation_id": "updateRepositoryRunner",
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "DELETE",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pipelines-config/runners/{runner_uuid}",
+      "operation_id": "deleteRepositoryRunner",
+      "response_statuses": [
+        "204",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pipelines/{pipeline_uuid}",
+      "operation_id": "getPipelineForRepository",
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pipelines/{pipeline_uuid}/steps",
+      "operation_id": "getPipelineStepsForRepository",
+      "response_statuses": [
+        "200"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pipelines/{pipeline_uuid}/steps/{step_uuid}",
+      "operation_id": "getPipelineStepForRepository",
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pipelines/{pipeline_uuid}/steps/{step_uuid}/log",
+      "operation_id": "getPipelineStepLogForRepository",
+      "response_statuses": [
+        "200",
+        "304",
+        "307",
+        "404",
+        "416"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pipelines/{pipeline_uuid}/steps/{step_uuid}/logs/{log_uuid}",
+      "operation_id": "getPipelineContainerLog",
+      "response_statuses": [
+        "200",
+        "307",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pipelines/{pipeline_uuid}/steps/{step_uuid}/test_reports",
+      "operation_id": "getPipelineTestReports",
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pipelines/{pipeline_uuid}/steps/{step_uuid}/test_reports/test_cases",
+      "operation_id": "getPipelineTestReportTestCases",
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pipelines/{pipeline_uuid}/steps/{step_uuid}/test_reports/test_cases/{test_case_uuid}/test_case_reasons",
+      "operation_id": "getPipelineTestReportTestCaseReasons",
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "POST",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pipelines/{pipeline_uuid}/stopPipeline",
+      "operation_id": "stopPipeline",
+      "response_statuses": [
+        "204",
+        "400",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pipelines_config",
+      "operation_id": "getRepositoryPipelineConfig",
+      "response_statuses": [
+        "200"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "PUT",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pipelines_config",
+      "operation_id": "updateRepositoryPipelineConfig",
+      "response_statuses": [
+        "200"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "PUT",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pipelines_config/build_number",
+      "operation_id": "updateRepositoryBuildNumber",
+      "response_statuses": [
+        "200",
+        "400",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pipelines_config/schedules",
+      "operation_id": "getRepositoryPipelineSchedules",
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "POST",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pipelines_config/schedules",
+      "operation_id": "createRepositoryPipelineSchedule",
+      "response_statuses": [
+        "201",
+        "400",
+        "401",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pipelines_config/schedules/{schedule_uuid}",
+      "operation_id": "getRepositoryPipelineSchedule",
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "PUT",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pipelines_config/schedules/{schedule_uuid}",
+      "operation_id": "updateRepositoryPipelineSchedule",
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "DELETE",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pipelines_config/schedules/{schedule_uuid}",
+      "operation_id": "deleteRepositoryPipelineSchedule",
+      "response_statuses": [
+        "204",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pipelines_config/schedules/{schedule_uuid}/executions",
+      "operation_id": "getRepositoryPipelineScheduleExecutions",
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pipelines_config/ssh/key_pair",
+      "operation_id": "getRepositoryPipelineSshKeyPair",
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "PUT",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pipelines_config/ssh/key_pair",
+      "operation_id": "updateRepositoryPipelineKeyPair",
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "DELETE",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pipelines_config/ssh/key_pair",
+      "operation_id": "deleteRepositoryPipelineKeyPair",
+      "response_statuses": [
+        "204",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pipelines_config/ssh/known_hosts",
+      "operation_id": "getRepositoryPipelineKnownHosts",
+      "response_statuses": [
+        "200"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "POST",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pipelines_config/ssh/known_hosts",
+      "operation_id": "createRepositoryPipelineKnownHost",
+      "response_statuses": [
+        "201",
+        "404",
+        "409"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pipelines_config/ssh/known_hosts/{known_host_uuid}",
+      "operation_id": "getRepositoryPipelineKnownHost",
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "PUT",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pipelines_config/ssh/known_hosts/{known_host_uuid}",
+      "operation_id": "updateRepositoryPipelineKnownHost",
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "DELETE",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pipelines_config/ssh/known_hosts/{known_host_uuid}",
+      "operation_id": "deleteRepositoryPipelineKnownHost",
+      "response_statuses": [
+        "204",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pipelines_config/variables",
+      "operation_id": "getRepositoryPipelineVariables",
+      "response_statuses": [
+        "200"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "POST",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pipelines_config/variables",
+      "operation_id": "createRepositoryPipelineVariable",
+      "response_statuses": [
+        "201",
+        "404",
+        "409"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pipelines_config/variables/{variable_uuid}",
+      "operation_id": "getRepositoryPipelineVariable",
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "PUT",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pipelines_config/variables/{variable_uuid}",
+      "operation_id": "updateRepositoryPipelineVariable",
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "DELETE",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pipelines_config/variables/{variable_uuid}",
+      "operation_id": "deleteRepositoryPipelineVariable",
+      "response_statuses": [
+        "204",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/properties/{app_key}/{property_name}",
+      "operation_id": "getRepositoryHostedPropertyValue",
+      "response_statuses": [
+        "200"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "PUT",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/properties/{app_key}/{property_name}",
+      "operation_id": "updateRepositoryHostedPropertyValue",
+      "response_statuses": [
+        "204"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "DELETE",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/properties/{app_key}/{property_name}",
+      "operation_id": "deleteRepositoryHostedPropertyValue",
+      "response_statuses": [
+        "204"
+      ],
+      "implementation": "unsupported"
     },
     {
       "method": "GET",
@@ -66,7 +1555,8 @@
         "200",
         "401",
         "404"
-      ]
+      ],
+      "implementation": "supported"
     },
     {
       "method": "POST",
@@ -76,7 +1566,19 @@
         "201",
         "400",
         "401"
-      ]
+      ],
+      "implementation": "supported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pullrequests/activity",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "401",
+        "404"
+      ],
+      "implementation": "unsupported"
     },
     {
       "method": "GET",
@@ -86,7 +1588,8 @@
         "200",
         "401",
         "404"
-      ]
+      ],
+      "implementation": "supported"
     },
     {
       "method": "PUT",
@@ -97,7 +1600,242 @@
         "400",
         "401",
         "404"
-      ]
+      ],
+      "implementation": "supported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/activity",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "401",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "POST",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/approve",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "401",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "DELETE",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/approve",
+      "operation_id": null,
+      "response_statuses": [
+        "204",
+        "400",
+        "401",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/comments",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "POST",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/comments",
+      "operation_id": null,
+      "response_statuses": [
+        "201",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/comments/{comment_id}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "PUT",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/comments/{comment_id}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "DELETE",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/comments/{comment_id}",
+      "operation_id": null,
+      "response_statuses": [
+        "204",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "POST",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/comments/{comment_id}/resolve",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "403",
+        "404",
+        "409"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "DELETE",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/comments/{comment_id}/resolve",
+      "operation_id": null,
+      "response_statuses": [
+        "204",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/commits",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/conflicts",
+      "operation_id": null,
+      "response_statuses": [
+        "302"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "POST",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/decline",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "555"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/diff",
+      "operation_id": null,
+      "response_statuses": [
+        "302"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/diffstat",
+      "operation_id": null,
+      "response_statuses": [
+        "302"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "POST",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/merge",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "202",
+        "400",
+        "409",
+        "503",
+        "555"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/merge/task-status/{task_id}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "400",
+        "403",
+        "409"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/mergeability/checks",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "429",
+        "500"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/patch",
+      "operation_id": null,
+      "response_statuses": [
+        "302"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "POST",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/request-changes",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "400",
+        "401",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "DELETE",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/request-changes",
+      "operation_id": null,
+      "response_statuses": [
+        "204",
+        "400",
+        "401",
+        "404"
+      ],
+      "implementation": "unsupported"
     },
     {
       "method": "GET",
@@ -107,7 +1845,212 @@
         "200",
         "401",
         "404"
-      ]
+      ],
+      "implementation": "supported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/tasks",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "400",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "POST",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/tasks",
+      "operation_id": null,
+      "response_statuses": [
+        "201",
+        "400",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/tasks/{task_id}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "PUT",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/tasks/{task_id}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "400",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "DELETE",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/tasks/{task_id}",
+      "operation_id": null,
+      "response_statuses": [
+        "204",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pullrequest_id}/properties/{app_key}/{property_name}",
+      "operation_id": "getPullRequestHostedPropertyValue",
+      "response_statuses": [
+        "200"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "PUT",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pullrequest_id}/properties/{app_key}/{property_name}",
+      "operation_id": "updatePullRequestHostedPropertyValue",
+      "response_statuses": [
+        "204"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "DELETE",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pullrequest_id}/properties/{app_key}/{property_name}",
+      "operation_id": "deletePullRequestHostedPropertyValue",
+      "response_statuses": [
+        "204"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/refs",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/refs/branches",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "POST",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/refs/branches",
+      "operation_id": null,
+      "response_statuses": [
+        "201",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/refs/branches/{name}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "DELETE",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/refs/branches/{name}",
+      "operation_id": null,
+      "response_statuses": [
+        "204",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/refs/tags",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "POST",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/refs/tags",
+      "operation_id": null,
+      "response_statuses": [
+        "201",
+        "400"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/refs/tags/{name}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "DELETE",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/refs/tags/{name}",
+      "operation_id": null,
+      "response_statuses": [
+        "204",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/src",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "POST",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/src",
+      "operation_id": null,
+      "response_statuses": [
+        "201",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
     },
     {
       "method": "GET",
@@ -117,7 +2060,348 @@
         "200",
         "404",
         "555"
-      ]
+      ],
+      "implementation": "supported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/repositories/{workspace}/{repo_slug}/watchers",
+      "operation_id": null,
+      "response_statuses": [
+        "200"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "POST",
+      "path": "/2.0/snippets",
+      "operation_id": null,
+      "response_statuses": [
+        "201",
+        "401"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/snippets/{workspace}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "POST",
+      "path": "/2.0/snippets/{workspace}",
+      "operation_id": null,
+      "response_statuses": [
+        "201",
+        "401",
+        "403"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/snippets/{workspace}/{encoded_id}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "401",
+        "403",
+        "404",
+        "410"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "PUT",
+      "path": "/2.0/snippets/{workspace}/{encoded_id}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "401",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "DELETE",
+      "path": "/2.0/snippets/{workspace}/{encoded_id}",
+      "operation_id": null,
+      "response_statuses": [
+        "204",
+        "401",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/snippets/{workspace}/{encoded_id}/comments",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "POST",
+      "path": "/2.0/snippets/{workspace}/{encoded_id}/comments",
+      "operation_id": null,
+      "response_statuses": [
+        "201",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/snippets/{workspace}/{encoded_id}/comments/{comment_id}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "PUT",
+      "path": "/2.0/snippets/{workspace}/{encoded_id}/comments/{comment_id}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "DELETE",
+      "path": "/2.0/snippets/{workspace}/{encoded_id}/comments/{comment_id}",
+      "operation_id": null,
+      "response_statuses": [
+        "204",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/snippets/{workspace}/{encoded_id}/commits",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/snippets/{workspace}/{encoded_id}/commits/{revision}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/snippets/{workspace}/{encoded_id}/files/{path}",
+      "operation_id": null,
+      "response_statuses": [
+        "302",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/snippets/{workspace}/{encoded_id}/watch",
+      "operation_id": null,
+      "response_statuses": [
+        "204",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "PUT",
+      "path": "/2.0/snippets/{workspace}/{encoded_id}/watch",
+      "operation_id": null,
+      "response_statuses": [
+        "204",
+        "401",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "DELETE",
+      "path": "/2.0/snippets/{workspace}/{encoded_id}/watch",
+      "operation_id": null,
+      "response_statuses": [
+        "204",
+        "401",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/snippets/{workspace}/{encoded_id}/watchers",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/snippets/{workspace}/{encoded_id}/{node_id}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "401",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "PUT",
+      "path": "/2.0/snippets/{workspace}/{encoded_id}/{node_id}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "401",
+        "403",
+        "404",
+        "405"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "DELETE",
+      "path": "/2.0/snippets/{workspace}/{encoded_id}/{node_id}",
+      "operation_id": null,
+      "response_statuses": [
+        "204",
+        "401",
+        "403",
+        "404",
+        "405"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/snippets/{workspace}/{encoded_id}/{node_id}/files/{path}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/snippets/{workspace}/{encoded_id}/{revision}/diff",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/snippets/{workspace}/{encoded_id}/{revision}/patch",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/teams/{username}/pipelines_config/variables",
+      "operation_id": "getPipelineVariablesForTeam",
+      "response_statuses": [
+        "200"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "POST",
+      "path": "/2.0/teams/{username}/pipelines_config/variables",
+      "operation_id": "createPipelineVariableForTeam",
+      "response_statuses": [
+        "201",
+        "404",
+        "409"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/teams/{username}/pipelines_config/variables/{variable_uuid}",
+      "operation_id": "getPipelineVariableForTeam",
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "PUT",
+      "path": "/2.0/teams/{username}/pipelines_config/variables/{variable_uuid}",
+      "operation_id": "updatePipelineVariableForTeam",
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "DELETE",
+      "path": "/2.0/teams/{username}/pipelines_config/variables/{variable_uuid}",
+      "operation_id": "deletePipelineVariableForTeam",
+      "response_statuses": [
+        "204",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/teams/{username}/search/code",
+      "operation_id": "searchTeam",
+      "response_statuses": [
+        "200",
+        "400",
+        "404",
+        "429"
+      ],
+      "implementation": "unsupported"
     },
     {
       "method": "GET",
@@ -126,7 +2410,800 @@
       "response_statuses": [
         "200",
         "401"
-      ]
+      ],
+      "implementation": "supported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/user/emails",
+      "operation_id": null,
+      "response_statuses": [
+        "default"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/user/emails/{email}",
+      "operation_id": null,
+      "response_statuses": [
+        "default"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/user/workspaces",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "400",
+        "401"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/user/workspaces/{workspace}/permission",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "401",
+        "403"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/user/workspaces/{workspace}/permissions/repositories",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "400",
+        "401",
+        "403"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/users/{selected_user}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/users/{selected_user}/gpg-keys",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "POST",
+      "path": "/2.0/users/{selected_user}/gpg-keys",
+      "operation_id": null,
+      "response_statuses": [
+        "201",
+        "400",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/users/{selected_user}/gpg-keys/{fingerprint}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "DELETE",
+      "path": "/2.0/users/{selected_user}/gpg-keys/{fingerprint}",
+      "operation_id": null,
+      "response_statuses": [
+        "204",
+        "400",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/users/{selected_user}/pipelines_config/variables",
+      "operation_id": "getPipelineVariablesForUser",
+      "response_statuses": [
+        "200"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "POST",
+      "path": "/2.0/users/{selected_user}/pipelines_config/variables",
+      "operation_id": "createPipelineVariableForUser",
+      "response_statuses": [
+        "201",
+        "404",
+        "409"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/users/{selected_user}/pipelines_config/variables/{variable_uuid}",
+      "operation_id": "getPipelineVariableForUser",
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "PUT",
+      "path": "/2.0/users/{selected_user}/pipelines_config/variables/{variable_uuid}",
+      "operation_id": "updatePipelineVariableForUser",
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "DELETE",
+      "path": "/2.0/users/{selected_user}/pipelines_config/variables/{variable_uuid}",
+      "operation_id": "deletePipelineVariableForUser",
+      "response_statuses": [
+        "204",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/users/{selected_user}/properties/{app_key}/{property_name}",
+      "operation_id": "retrieveUserHostedPropertyValue",
+      "response_statuses": [
+        "200"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "PUT",
+      "path": "/2.0/users/{selected_user}/properties/{app_key}/{property_name}",
+      "operation_id": "updateUserHostedPropertyValue",
+      "response_statuses": [
+        "204"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "DELETE",
+      "path": "/2.0/users/{selected_user}/properties/{app_key}/{property_name}",
+      "operation_id": "deleteUserHostedPropertyValue",
+      "response_statuses": [
+        "204"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/users/{selected_user}/search/code",
+      "operation_id": "searchAccount",
+      "response_statuses": [
+        "200",
+        "400",
+        "404",
+        "429"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/users/{selected_user}/ssh-keys",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "POST",
+      "path": "/2.0/users/{selected_user}/ssh-keys",
+      "operation_id": null,
+      "response_statuses": [
+        "201",
+        "400",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/users/{selected_user}/ssh-keys/{key_id}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "PUT",
+      "path": "/2.0/users/{selected_user}/ssh-keys/{key_id}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "400",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "DELETE",
+      "path": "/2.0/users/{selected_user}/ssh-keys/{key_id}",
+      "operation_id": null,
+      "response_statuses": [
+        "204",
+        "400",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/workspaces/{workspace}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "POST",
+      "path": "/2.0/workspaces/{workspace}/codesearch",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "415",
+        "429",
+        "502"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/workspaces/{workspace}/hooks",
+      "operation_id": "list_workspace_hooks",
+      "response_statuses": [
+        "200",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "POST",
+      "path": "/2.0/workspaces/{workspace}/hooks",
+      "operation_id": "create_workspace_hook",
+      "response_statuses": [
+        "201",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/workspaces/{workspace}/hooks/{uid}",
+      "operation_id": "get_workspace_hook",
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "PUT",
+      "path": "/2.0/workspaces/{workspace}/hooks/{uid}",
+      "operation_id": "update_workspace_hook",
+      "response_statuses": [
+        "200",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "DELETE",
+      "path": "/2.0/workspaces/{workspace}/hooks/{uid}",
+      "operation_id": "delete_workspace_hook",
+      "response_statuses": [
+        "204",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/workspaces/{workspace}/members",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "400",
+        "401"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/workspaces/{workspace}/members/{member}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "401",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/workspaces/{workspace}/permissions",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "401"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/workspaces/{workspace}/permissions/repositories",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "403"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/workspaces/{workspace}/permissions/repositories/{repo_slug}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "403"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/workspaces/{workspace}/pipelines-config/identity/oidc/.well-known/openid-configuration",
+      "operation_id": "getOIDCConfiguration",
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/workspaces/{workspace}/pipelines-config/identity/oidc/keys.json",
+      "operation_id": "getOIDCKeys",
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/workspaces/{workspace}/pipelines-config/runners",
+      "operation_id": "getWorkspaceRunners",
+      "response_statuses": [
+        "200"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "POST",
+      "path": "/2.0/workspaces/{workspace}/pipelines-config/runners",
+      "operation_id": "createWorkspaceRunner",
+      "response_statuses": [
+        "200",
+        "400",
+        "409"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/workspaces/{workspace}/pipelines-config/runners/{runner_uuid}",
+      "operation_id": "getWorkspaceRunner",
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "PUT",
+      "path": "/2.0/workspaces/{workspace}/pipelines-config/runners/{runner_uuid}",
+      "operation_id": "updateWorkspaceRunner",
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "DELETE",
+      "path": "/2.0/workspaces/{workspace}/pipelines-config/runners/{runner_uuid}",
+      "operation_id": "deleteWorkspaceRunner",
+      "response_statuses": [
+        "204",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/workspaces/{workspace}/pipelines-config/variables",
+      "operation_id": "getPipelineVariablesForWorkspace",
+      "response_statuses": [
+        "200"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "POST",
+      "path": "/2.0/workspaces/{workspace}/pipelines-config/variables",
+      "operation_id": "createPipelineVariableForWorkspace",
+      "response_statuses": [
+        "201",
+        "404",
+        "409"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/workspaces/{workspace}/pipelines-config/variables/{variable_uuid}",
+      "operation_id": "getPipelineVariableForWorkspace",
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "PUT",
+      "path": "/2.0/workspaces/{workspace}/pipelines-config/variables/{variable_uuid}",
+      "operation_id": "updatePipelineVariableForWorkspace",
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "DELETE",
+      "path": "/2.0/workspaces/{workspace}/pipelines-config/variables/{variable_uuid}",
+      "operation_id": "deletePipelineVariableForWorkspace",
+      "response_statuses": [
+        "204",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/workspaces/{workspace}/projects",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "POST",
+      "path": "/2.0/workspaces/{workspace}/projects",
+      "operation_id": null,
+      "response_statuses": [
+        "201",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/workspaces/{workspace}/projects/{project_key}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "401",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "PUT",
+      "path": "/2.0/workspaces/{workspace}/projects/{project_key}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "201",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "DELETE",
+      "path": "/2.0/workspaces/{workspace}/projects/{project_key}",
+      "operation_id": null,
+      "response_statuses": [
+        "204",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/workspaces/{workspace}/projects/{project_key}/branching-model",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "401",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/workspaces/{workspace}/projects/{project_key}/branching-model/settings",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "401",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "PUT",
+      "path": "/2.0/workspaces/{workspace}/projects/{project_key}/branching-model/settings",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/workspaces/{workspace}/projects/{project_key}/default-reviewers",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/workspaces/{workspace}/projects/{project_key}/default-reviewers/{selected_user}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "400",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "PUT",
+      "path": "/2.0/workspaces/{workspace}/projects/{project_key}/default-reviewers/{selected_user}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "400",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "DELETE",
+      "path": "/2.0/workspaces/{workspace}/projects/{project_key}/default-reviewers/{selected_user}",
+      "operation_id": null,
+      "response_statuses": [
+        "204",
+        "400",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/workspaces/{workspace}/projects/{project_key}/deploy-keys",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "POST",
+      "path": "/2.0/workspaces/{workspace}/projects/{project_key}/deploy-keys",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "400",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/workspaces/{workspace}/projects/{project_key}/deploy-keys/{key_id}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "DELETE",
+      "path": "/2.0/workspaces/{workspace}/projects/{project_key}/deploy-keys/{key_id}",
+      "operation_id": null,
+      "response_statuses": [
+        "204",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/workspaces/{workspace}/projects/{project_key}/permissions-config/groups",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "401",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/workspaces/{workspace}/projects/{project_key}/permissions-config/groups/{group_slug}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "401",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "PUT",
+      "path": "/2.0/workspaces/{workspace}/projects/{project_key}/permissions-config/groups/{group_slug}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "400",
+        "401",
+        "402",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "DELETE",
+      "path": "/2.0/workspaces/{workspace}/projects/{project_key}/permissions-config/groups/{group_slug}",
+      "operation_id": null,
+      "response_statuses": [
+        "204",
+        "401",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/workspaces/{workspace}/projects/{project_key}/permissions-config/users",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "401",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/workspaces/{workspace}/projects/{project_key}/permissions-config/users/{selected_user_id}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "401",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "PUT",
+      "path": "/2.0/workspaces/{workspace}/projects/{project_key}/permissions-config/users/{selected_user_id}",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "400",
+        "401",
+        "402",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "DELETE",
+      "path": "/2.0/workspaces/{workspace}/projects/{project_key}/permissions-config/users/{selected_user_id}",
+      "operation_id": null,
+      "response_statuses": [
+        "204",
+        "401",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
     },
     {
       "method": "GET",
@@ -135,7 +3212,32 @@
       "response_statuses": [
         "200",
         "404"
-      ]
+      ],
+      "implementation": "supported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/workspaces/{workspace}/search/code",
+      "operation_id": "searchWorkspace",
+      "response_statuses": [
+        "200",
+        "400",
+        "404",
+        "429"
+      ],
+      "implementation": "unsupported"
+    },
+    {
+      "method": "GET",
+      "path": "/2.0/workspaces/{workspace}/settings/gpg/public-key",
+      "operation_id": null,
+      "response_statuses": [
+        "200",
+        "401",
+        "403",
+        "404"
+      ],
+      "implementation": "unsupported"
     }
   ]
 }
