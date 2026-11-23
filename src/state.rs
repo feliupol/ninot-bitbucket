@@ -8,7 +8,7 @@ use serde_json::Value;
 
 use crate::model::{
     BranchRef, BuildStatus, CloneLink, HtmlLink, MainBranch, Participant, PrAuthor, PrEndpoint,
-    PrLinks, PullRequest, RepoLinks, RepoRef, Repository, User,
+    PrLinks, Project, PullRequest, RepoLinks, RepoRef, Repository, User,
 };
 
 /// Version of the Bitbucket state snapshot format.
@@ -32,6 +32,9 @@ pub struct State {
     /// Repositories, keyed by their full workspace and slug.
     #[serde(default)]
     pub repositories: BTreeMap<String, Repository>,
+    /// Projects, keyed by their workspace and project key.
+    #[serde(default)]
+    pub projects: BTreeMap<String, Project>,
     /// Ordered provider fault rules.
     #[serde(default)]
     pub faults: Vec<FaultRule>,
@@ -50,6 +53,7 @@ impl Default for State {
             credentials: None,
             user: default_user(),
             repositories: BTreeMap::new(),
+            projects: BTreeMap::new(),
             faults: Vec::new(),
             requests: Vec::new(),
             applied_faults: Vec::new(),
@@ -69,8 +73,45 @@ fn default_user() -> User {
 }
 
 impl State {
-    /// Registers a repository and returns a handle that mutates this shared state.
-    /// Registers a repository fixture and returns its state-backed handle.
+    /// Registers a project on a workspace and returns its state-backed handle.
+    ///
+    /// The UUID is derived from the workspace and key unless `uuid` is given. Registering
+    /// the same workspace and key again replaces the project.
+    pub fn add_project(
+        state: &SharedState,
+        workspace: &str,
+        key: &str,
+        name: &str,
+        description: &str,
+        is_private: bool,
+        uuid: Option<&str>,
+    ) -> ProjectHandle {
+        let project = Project {
+            workspace: workspace.to_owned(),
+            key: key.to_owned(),
+            name: name.to_owned(),
+            description: description.to_owned(),
+            is_private,
+            uuid: uuid
+                .filter(|uuid| !uuid.is_empty())
+                .map_or_else(|| project_uuid(workspace, key), str::to_owned),
+        };
+        state.update(|state| {
+            state.projects.insert(project_key(workspace, key), project);
+        });
+        ProjectHandle {
+            state: state.clone(),
+            workspace: workspace.to_owned(),
+            key: key.to_owned(),
+        }
+    }
+
+    /// Registers a repository fixture, optionally inside a project of its workspace, and
+    /// returns its state-backed handle.
+    ///
+    /// # Errors
+    ///
+    /// Returns an error when `project` names a project that is not registered on `workspace`.
     #[allow(clippy::too_many_arguments)]
     pub fn add_repo(
         state: &SharedState,
@@ -84,7 +125,17 @@ impl State {
         size: u64,
         updated_on: &str,
         clone_https: Option<&str>,
-    ) -> RepositoryHandle {
+        project: Option<&str>,
+    ) -> Result<RepositoryHandle, String> {
+        if let Some(project) = project
+            && !state.read(|state| {
+                state
+                    .projects
+                    .contains_key(&project_key(workspace, project))
+            })
+        {
+            return Err(format!("no project {project:?} in workspace {workspace:?}"));
+        }
         let full_name = full_name
             .filter(|name| !name.is_empty())
             .map_or_else(|| format!("{workspace}/{slug}"), str::to_owned);
@@ -123,15 +174,16 @@ impl State {
                 },
                 ..RepoLinks::default()
             },
+            project_key: project.map(str::to_owned),
             ..Repository::default()
         };
         state.update(|state| {
             state.repositories.insert(full_name.clone(), repository);
         });
-        RepositoryHandle {
+        Ok(RepositoryHandle {
             state: state.clone(),
             full_name,
-        }
+        })
     }
 
     /// Replaces the user read model returned by `GET /user`.
@@ -281,6 +333,75 @@ pub struct AppliedFault {
     pub kind: String,
 }
 
+/// Returns the key of a project within the state's project map.
+fn project_key(workspace: &str, key: &str) -> String {
+    format!("{workspace}/{key}")
+}
+
+/// Derives a stable Bitbucket-shaped UUID from a project's workspace and key.
+fn project_uuid(workspace: &str, key: &str) -> String {
+    let hash = |seed: u64| {
+        project_key(workspace, key)
+            .bytes()
+            .fold(seed, |hash, byte| {
+                (hash ^ u64::from(byte)).wrapping_mul(0x0100_0000_01b3)
+            })
+    };
+    let (high, low) = (hash(0xcbf2_9ce4_8422_2325), hash(0x8422_2325_cbf2_9ce4));
+    format!(
+        "{{{:08x}-{:04x}-{:04x}-{:04x}-{:012x}}}",
+        high >> 32,
+        (high >> 16) & 0xffff,
+        high & 0xffff,
+        low >> 48,
+        low & 0xffff_ffff_ffff
+    )
+}
+
+/// A direct handle to a project persisted in a shared state.
+#[derive(Clone)]
+pub struct ProjectHandle {
+    /// Shared state that owns the project.
+    pub state: SharedState,
+    /// Owning workspace.
+    pub workspace: String,
+    /// Project key.
+    pub key: String,
+}
+
+impl ProjectHandle {
+    /// Returns the current project model, if it still exists.
+    pub fn get(&self) -> Option<Project> {
+        self.state.read(|state| {
+            state
+                .projects
+                .get(&project_key(&self.workspace, &self.key))
+                .cloned()
+        })
+    }
+
+    /// Returns handles to the repositories currently assigned to this project.
+    pub fn repositories(&self) -> Vec<RepositoryHandle> {
+        self.state.read(|state| {
+            state
+                .repositories
+                .iter()
+                .filter(|(_, repo)| {
+                    repo.project_key.as_deref() == Some(&self.key)
+                        && repo
+                            .full_name
+                            .split_once('/')
+                            .is_some_and(|(owner, _)| owner == self.workspace)
+                })
+                .map(|(full_name, _)| RepositoryHandle {
+                    state: self.state.clone(),
+                    full_name: full_name.clone(),
+                })
+                .collect()
+        })
+    }
+}
+
 /// A direct handle to a repository persisted in a shared state.
 #[derive(Clone)]
 pub struct RepositoryHandle {
@@ -295,6 +416,20 @@ impl RepositoryHandle {
     pub fn get(&self) -> Option<Repository> {
         self.state
             .read(|state| state.repositories.get(&self.full_name).cloned())
+    }
+
+    /// Returns a handle to the project containing this repository, if it belongs to one.
+    pub fn project(&self) -> Option<ProjectHandle> {
+        self.state.read(|state| {
+            let repo = state.repositories.get(&self.full_name)?;
+            let key = repo.project_key.clone()?;
+            let (workspace, _) = self.full_name.split_once('/')?;
+            Some(ProjectHandle {
+                state: self.state.clone(),
+                workspace: workspace.to_owned(),
+                key,
+            })
+        })
     }
 
     /// Returns handles to pull requests currently owned by this repository.

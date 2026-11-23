@@ -4,7 +4,7 @@
       "url": "https://api.bitbucket.org/swagger.json",
       "sha256": "a3b9752d63d75b08bc29c0f731ebdeaafb90828afd13d90b3664a85b9c6b2db5",
       "version": "2.0",
-      "catalog_sha256": "35cb959040fc07b2f79400dd7327bc6f2c53eac0932543e689c3868935a0a597"
+      "catalog_sha256": "3579206a2843e59b887e8f77a1dc64c49db699d6c2dc8615d4982e3ba43e6580"
     }
   ],
   "operations": [
@@ -2928,7 +2928,7 @@
         "200",
         "404"
       ],
-      "implementation": "unsupported"
+      "implementation": "supported"
     },
     {
       "method": "POST",
@@ -2951,7 +2951,7 @@
         "403",
         "404"
       ],
-      "implementation": "unsupported"
+      "implementation": "supported"
     },
     {
       "method": "PUT",

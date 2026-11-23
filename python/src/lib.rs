@@ -2,7 +2,7 @@
 
 use ninot_bitbucket::Server as RustServer;
 use ninot_bitbucket::model::{BuildStatus as RustBuildStatus, Participant as RustParticipant};
-use ninot_bitbucket::state::{FaultRule, RepositoryHandle, State as RustState};
+use ninot_bitbucket::state::{FaultRule, ProjectHandle, RepositoryHandle, State as RustState};
 use ninot_common::state::StateHandle;
 use pyo3::exceptions::{PyLookupError, PyRuntimeError, PyValueError};
 use pyo3::prelude::*;
@@ -82,7 +82,7 @@ impl State {
     }
 
     /// Register a repository and return its direct fixture handle.
-    #[pyo3(signature = (workspace, slug, *, full_name=None, description="", default_branch="master", is_private=false, language="", size=0, updated_on="", clone_https=None))]
+    #[pyo3(signature = (workspace, slug, *, full_name=None, description="", default_branch="master", is_private=false, language="", size=0, updated_on="", clone_https=None, project=None))]
     #[allow(clippy::too_many_arguments)]
     fn add_repo(
         &self,
@@ -96,6 +96,7 @@ impl State {
         size: u64,
         updated_on: &str,
         clone_https: Option<&str>,
+        project: Option<&str>,
     ) -> PyResult<Repository> {
         let inner = RustState::add_repo(
             &self.inner,
@@ -109,8 +110,58 @@ impl State {
             size,
             updated_on,
             clone_https,
-        );
+            project,
+        )
+        .map_err(PyLookupError::new_err)?;
         Ok(Repository { inner })
+    }
+
+    /// Register a project on a workspace and return its direct fixture handle.
+    #[pyo3(signature = (workspace, key, name, *, description="", is_private=true, uuid=None))]
+    fn add_project(
+        &self,
+        workspace: &str,
+        key: &str,
+        name: &str,
+        description: &str,
+        is_private: bool,
+        uuid: Option<&str>,
+    ) -> Project {
+        Project {
+            inner: RustState::add_project(
+                &self.inner,
+                workspace,
+                key,
+                name,
+                description,
+                is_private,
+                uuid,
+            ),
+        }
+    }
+
+    /// Projects keyed by their workspace and project key.
+    #[getter]
+    fn _projects(&self, py: Python<'_>) -> PyResult<Py<PyAny>> {
+        let projects = self.inner.read(|state| {
+            state
+                .projects
+                .iter()
+                .map(|(name, project)| {
+                    (name.clone(), project.workspace.clone(), project.key.clone())
+                })
+                .collect::<Vec<_>>()
+        });
+        let result = PyDict::new(py);
+        for (name, workspace, key) in projects {
+            let handle = ProjectHandle {
+                state: self.inner.clone(),
+                workspace,
+                key,
+            };
+            result.set_item(name, Py::new(py, Project { inner: handle })?)?;
+        }
+        Ok(result.into_any().unbind())
     }
 
     /// Replace the user returned by `GET /2.0/user`.
@@ -396,6 +447,70 @@ impl FaultBuilder {
     }
 }
 
+/// A project handle whose getters read the state served by its owner.
+#[pyclass]
+struct Project {
+    inner: ProjectHandle,
+}
+
+impl Project {
+    /// Read the current project, failing when it no longer exists.
+    fn current(&self) -> PyResult<ninot_bitbucket::Project> {
+        self.inner
+            .get()
+            .ok_or_else(|| PyLookupError::new_err("project no longer exists"))
+    }
+}
+
+#[pymethods]
+impl Project {
+    /// Owning workspace.
+    #[getter]
+    fn workspace(&self) -> String {
+        self.inner.workspace.clone()
+    }
+
+    /// Project key, unique within the workspace.
+    #[getter]
+    fn key(&self) -> String {
+        self.inner.key.clone()
+    }
+
+    /// Project name.
+    #[getter]
+    fn name(&self) -> PyResult<String> {
+        Ok(self.current()?.name)
+    }
+
+    /// Project description.
+    #[getter]
+    fn description(&self) -> PyResult<String> {
+        Ok(self.current()?.description)
+    }
+
+    /// Whether the project is private.
+    #[getter]
+    fn is_private(&self) -> PyResult<bool> {
+        Ok(self.current()?.is_private)
+    }
+
+    /// Provider UUID.
+    #[getter]
+    fn uuid(&self) -> PyResult<String> {
+        Ok(self.current()?.uuid)
+    }
+
+    /// Repositories currently assigned to the project.
+    #[getter]
+    fn repos(&self, py: Python<'_>) -> PyResult<Vec<Py<Repository>>> {
+        self.inner
+            .repositories()
+            .into_iter()
+            .map(|inner| Py::new(py, Repository { inner }))
+            .collect()
+    }
+}
+
 /// A repository handle whose methods mutate the state served by its owner.
 #[pyclass]
 struct Repository {
@@ -472,6 +587,12 @@ impl Repository {
             .get()
             .map(|repo| repo.full_name)
             .ok_or_else(|| PyLookupError::new_err("repository no longer exists"))
+    }
+
+    /// Project containing the repository, if it belongs to one.
+    #[getter]
+    fn project(&self) -> Option<Project> {
+        self.inner.project().map(|inner| Project { inner })
     }
 
     /// Pull requests currently stored on the repository.
@@ -696,6 +817,7 @@ fn _native(module: &Bound<'_, PyModule>) -> PyResult<()> {
     module.add_class::<Server>()?;
     module.add_class::<State>()?;
     module.add_class::<Repository>()?;
+    module.add_class::<Project>()?;
     module.add_class::<PullRequest>()?;
     module.add_class::<Participant>()?;
     module.add_class::<FaultBuilder>()?;

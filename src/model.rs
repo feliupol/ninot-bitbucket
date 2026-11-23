@@ -111,6 +111,9 @@ pub struct Repository {
     /// File contents on the main branch, keyed by repository-relative path.
     #[serde(default)]
     pub files: BTreeMap<String, Vec<u8>>,
+    /// Key of the project, in this repository's workspace, that contains the repository.
+    #[serde(default)]
+    pub project_key: Option<String>,
     /// Provider fields outside the subset used by consumers.
     #[serde(flatten)]
     pub extra: BTreeMap<String, Value>,
@@ -137,6 +140,9 @@ pub struct RepositoryResponse {
     pub updated_on: String,
     /// Repository URLs.
     pub links: RepoLinks,
+    /// The project containing the repository, when it belongs to one.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub project: Option<ProjectRef>,
     /// Provider fields outside the subset used by consumers.
     #[serde(flatten)]
     pub extra: BTreeMap<String, Value>,
@@ -154,7 +160,141 @@ impl From<&Repository> for RepositoryResponse {
             size: repository.size,
             updated_on: repository.updated_on.clone(),
             links: repository.links.clone(),
+            project: None,
             extra: repository.extra.clone(),
+        }
+    }
+}
+
+/// Links returned for a project.
+#[derive(Clone, Debug, Default, Deserialize, Serialize)]
+pub struct ProjectLinks {
+    /// The project's web page.
+    #[serde(default)]
+    pub html: HtmlLink,
+    /// The project's avatar image.
+    #[serde(default)]
+    pub avatar: HtmlLink,
+}
+
+/// A workspace project that groups repositories.
+#[derive(Clone, Debug, Default, Deserialize, Serialize)]
+pub struct Project {
+    /// The workspace that owns the project.
+    #[serde(default)]
+    pub workspace: String,
+    /// The project key, unique within its workspace.
+    #[serde(default)]
+    pub key: String,
+    /// The project name.
+    #[serde(default)]
+    pub name: String,
+    /// The project description.
+    #[serde(default)]
+    pub description: String,
+    /// Whether the project is private.
+    #[serde(default)]
+    pub is_private: bool,
+    /// The provider UUID.
+    #[serde(default)]
+    pub uuid: String,
+}
+
+impl Project {
+    /// Returns the project's web and avatar links.
+    fn links(&self) -> ProjectLinks {
+        let page = format!(
+            "https://bitbucket.org/{}/workspace/projects/{}",
+            self.workspace, self.key
+        );
+        ProjectLinks {
+            html: HtmlLink {
+                href: page,
+                ..HtmlLink::default()
+            },
+            avatar: HtmlLink {
+                href: format!(
+                    "https://bitbucket.org/account/{}/projects/{}/avatar/32",
+                    self.workspace, self.key
+                ),
+                ..HtmlLink::default()
+            },
+        }
+    }
+}
+
+/// Timestamp reported for every project, which the fake does not age.
+const PROJECT_TIMESTAMP: &str = "2020-01-01T00:00:00.000000+00:00";
+
+/// Project resource returned by `/workspaces/{workspace}/projects`.
+#[derive(Clone, Debug, Serialize)]
+pub struct ProjectResponse {
+    /// Always `project`.
+    #[serde(rename = "type")]
+    pub kind: &'static str,
+    /// The provider UUID.
+    pub uuid: String,
+    /// The project key.
+    pub key: String,
+    /// The project name.
+    pub name: String,
+    /// The project description.
+    pub description: String,
+    /// Whether the project is private.
+    pub is_private: bool,
+    /// Whether any repository in the project is public.
+    pub has_publicly_visible_repos: bool,
+    /// Creation timestamp.
+    pub created_on: &'static str,
+    /// Last update timestamp.
+    pub updated_on: &'static str,
+    /// Project URLs.
+    pub links: ProjectLinks,
+}
+
+impl ProjectResponse {
+    /// Builds the response for `project`, given whether any of its repositories is public.
+    #[must_use]
+    pub fn new(project: &Project, has_publicly_visible_repos: bool) -> Self {
+        Self {
+            kind: "project",
+            uuid: project.uuid.clone(),
+            key: project.key.clone(),
+            name: project.name.clone(),
+            description: project.description.clone(),
+            is_private: project.is_private,
+            has_publicly_visible_repos,
+            created_on: PROJECT_TIMESTAMP,
+            updated_on: PROJECT_TIMESTAMP,
+            links: project.links(),
+        }
+    }
+}
+
+/// Project object embedded in a repository response.
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct ProjectRef {
+    /// Always `project`.
+    #[serde(rename = "type")]
+    pub kind: String,
+    /// The project key.
+    pub key: String,
+    /// The project name.
+    pub name: String,
+    /// The provider UUID.
+    pub uuid: String,
+    /// Project URLs.
+    pub links: ProjectLinks,
+}
+
+impl From<&Project> for ProjectRef {
+    fn from(project: &Project) -> Self {
+        Self {
+            kind: "project".to_owned(),
+            key: project.key.clone(),
+            name: project.name.clone(),
+            uuid: project.uuid.clone(),
+            links: project.links(),
         }
     }
 }

@@ -18,7 +18,8 @@ use serde_json::Value;
 use url::form_urlencoded;
 
 use crate::model::{
-    CreatePullRequestRequest, PatchField, PullRequest, RepositoryResponse, UpdatePullRequestRequest,
+    CreatePullRequestRequest, PatchField, Project, ProjectRef, ProjectResponse, PullRequest,
+    Repository, RepositoryResponse, UpdatePullRequestRequest,
 };
 use crate::state::{RequestRecord, State};
 
@@ -84,7 +85,7 @@ async fn dispatch(
                 state
                     .repositories
                     .values()
-                    .map(RepositoryResponse::from)
+                    .map(|repository| repository_response(state, repository))
                     .collect::<Vec<_>>()
             });
             page_response(&uri, &headers, &query, repos, "GET /repositories")
@@ -122,12 +123,22 @@ fn dispatch_repository(
                         key.split_once('/')
                             .is_some_and(|(owner, _)| owner == *workspace)
                     })
-                    .map(|(_, repository)| RepositoryResponse::from(repository))
+                    .map(|(_, repository)| repository_response(state, repository))
                     .collect::<Vec<_>>()
             });
-            if let Some(name) = query.get("q").and_then(|q| extract_query(q, "name~")) {
+            let q = query.get("q").map(String::as_str).unwrap_or("");
+            if let Some(name) = extract_query(q, "name~") {
                 let needle = strip_quotes(name).to_lowercase();
                 repositories.retain(|repository| repository.slug.to_lowercase().contains(&needle));
+            }
+            if let Some(key) = extract_query(q, "project.key=") {
+                let key = strip_quotes(key);
+                repositories.retain(|repository| {
+                    repository
+                        .project
+                        .as_ref()
+                        .is_some_and(|project| project.key == key)
+                });
             }
             page_response(
                 uri,
@@ -140,6 +151,12 @@ fn dispatch_repository(
         ["repositories", workspace, slug, ..] => {
             repo_operation(state, method, uri, headers, workspace, slug, query, body)
         }
+        ["workspaces", workspace, "projects"] if method == "GET" => {
+            list_projects(state, uri, headers, query, workspace)
+        }
+        ["workspaces", workspace, "projects", key] if method == "GET" => {
+            get_project(state, workspace, key)
+        }
         ["workspaces", workspace, "pullrequests", selected_user] if method == "GET" => {
             list_workspace_pulls(state, uri, headers, query, workspace, selected_user)
         }
@@ -151,6 +168,96 @@ fn dispatch_repository(
             "unmatched",
         ),
     }
+}
+
+/// Builds the public repository response, embedding the project it belongs to.
+fn repository_response(state: &State, repository: &Repository) -> RepositoryResponse {
+    let mut response = RepositoryResponse::from(repository);
+    response.project = repository
+        .full_name
+        .split_once('/')
+        .zip(repository.project_key.as_deref())
+        .and_then(|((workspace, _), key)| state.projects.get(&format!("{workspace}/{key}")))
+        .map(ProjectRef::from);
+    response
+}
+
+/// Builds the project response for a project and its repositories.
+fn project_response(state: &State, project: &Project) -> ProjectResponse {
+    let has_public_repository = state.repositories.values().any(|repository| {
+        !repository.is_private
+            && repository.project_key.as_deref() == Some(project.key.as_str())
+            && repository
+                .full_name
+                .split_once('/')
+                .is_some_and(|(workspace, _)| workspace == project.workspace)
+    });
+    ProjectResponse::new(project, has_public_repository)
+}
+
+/// Lists a workspace's projects, filtered by the supported `q` name and key terms.
+fn list_projects(
+    state: &StateHandle<State>,
+    uri: &Uri,
+    headers: &HeaderMap,
+    query: &BTreeMap<String, String>,
+    workspace: &str,
+) -> Response<Body> {
+    let mut projects = state.read(|state| {
+        state
+            .projects
+            .values()
+            .filter(|project| project.workspace == workspace)
+            .map(|project| project_response(state, project))
+            .collect::<Vec<_>>()
+    });
+    let q = query.get("q").map(String::as_str).unwrap_or("");
+    if let Some(value) = extract_query(q, "name~") {
+        let needle = strip_quotes(value).to_lowercase();
+        projects.retain(|project| project.name.to_lowercase().contains(&needle));
+    }
+    if let Some(value) = extract_query(q, "name=") {
+        let value = strip_quotes(value);
+        projects.retain(|project| project.name == value);
+    }
+    if let Some(value) = extract_query(q, "key~") {
+        let needle = strip_quotes(value).to_lowercase();
+        projects.retain(|project| project.key.to_lowercase().contains(&needle));
+    }
+    if let Some(value) = extract_query(q, "key=") {
+        let value = strip_quotes(value);
+        projects.retain(|project| project.key == value);
+    }
+    page_response(
+        uri,
+        headers,
+        query,
+        projects,
+        "GET /workspaces/{workspace}/projects",
+    )
+}
+
+/// Returns one workspace project, or Bitbucket's 404 envelope when it does not exist.
+fn get_project(state: &StateHandle<State>, workspace: &str, key: &str) -> Response<Body> {
+    const LABEL: &str = "GET /workspaces/{workspace}/projects/{project_key}";
+    state.read(|state| {
+        state
+            .projects
+            .get(&format!("{workspace}/{key}"))
+            .map_or_else(
+                || {
+                    json_response(
+                        StatusCode::NOT_FOUND,
+                        &serde_json::json!({
+                            "type": "error",
+                            "error": {"message": format!("No project {key} in workspace {workspace}")},
+                        }),
+                        LABEL,
+                    )
+                },
+                |project| json_response(StatusCode::OK, &project_response(state, project), LABEL),
+            )
+    })
 }
 
 /// Runs the operation selected for one repository resource path.
@@ -171,7 +278,12 @@ fn repo_operation(
         .to_owned();
     match (method, subpath.as_str()) {
         ("GET", "") => state
-            .read(|state| state.repositories.get(&key).map(RepositoryResponse::from))
+            .read(|state| {
+                state
+                    .repositories
+                    .get(&key)
+                    .map(|repository| repository_response(state, repository))
+            })
             .map_or_else(
                 || {
                     not_found(

@@ -16,6 +16,7 @@ with Server() as server:
 ## Supported behavior
 
 - Cloud `/2.0` user, repository discovery and repository lookup
+- Workspace projects (`/workspaces/{workspace}/projects[/{key}]`, `q` on `name`/`key`) and repositories carrying their `project`, filterable with `q=project.key="KEY"`; arranged with `State.add_project(...)` and `State.add_repo(..., project="KEY")`
 - Pull-request list, create, update and lookup with source/state/author/reviewer filtering
 - Build statuses and absolute next-page URLs
 - Raw file contents on the main branch (`/src/{mainbranch}/{path}`), seeded with `Repository.add_file(path, content)`; directory listings and `format` are not modeled

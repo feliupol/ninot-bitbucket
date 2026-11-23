@@ -134,3 +134,89 @@ def test_snapshot_restores_file_contents() -> None:
     with Server(restored) as server:
         response = httpx.get(server.url + "/repositories/ws/repo/src/main/.gitmodules")
         assert response.content == b"data"
+
+
+def test_projects_paginate_filter_and_resolve_by_key() -> None:
+    """Workspace projects page with real next URLs, match `q` terms and 404 when unknown."""
+    with Server() as server, httpx.Client(base_url=server.url) as client:
+        server.state.add_project("ws", "ALPHA", "Alpha Platform", description="core")
+        server.state.add_project("ws", "BETA", "Beta Tools", is_private=False)
+        server.state.add_project("ws", "GAMMA", "Gamma Platform")
+        server.state.add_project("other", "ALPHA", "Foreign Alpha")
+        first = client.get("workspaces/ws/projects", params={"pagelen": 2}).json()
+        assert [item["key"] for item in first["values"]] == ["ALPHA", "BETA"]
+        assert first["size"] == 3
+        second = client.get(first["next"]).json()
+        assert [item["key"] for item in second["values"]] == ["GAMMA"]
+        assert "next" not in second
+        by_name = client.get("workspaces/ws/projects", params={"q": 'name~"platform"'}).json()
+        assert [item["key"] for item in by_name["values"]] == ["ALPHA", "GAMMA"]
+        by_key = client.get("workspaces/ws/projects", params={"q": 'key="BETA"'}).json()
+        assert [item["name"] for item in by_key["values"]] == ["Beta Tools"]
+        project = client.get("workspaces/ws/projects/ALPHA").json()
+        assert project["type"] == "project"
+        assert project["name"] == "Alpha Platform"
+        assert project["description"] == "core"
+        assert project["is_private"] is True
+        assert project["uuid"].startswith("{")
+        assert project["uuid"].endswith("}")
+        assert project["links"]["html"]["href"].endswith("/ws/workspace/projects/ALPHA")
+        assert client.get("workspaces/ws/projects/ALPHA").json()["uuid"] == project["uuid"]
+        missing = client.get("workspaces/ws/projects/NOPE")
+        assert missing.status_code == 404
+        assert missing.json()["type"] == "error"
+        assert client.get("workspaces/empty/projects").json()["values"] == []
+
+
+def test_repositories_carry_their_project_and_filter_by_project_key() -> None:
+    """Repository responses embed the project, and `q=project.key` selects its repositories."""
+    with Server() as server, httpx.Client(base_url=server.url) as client:
+        project = server.state.add_project("ws", "ALPHA", "Alpha Platform")
+        server.state.add_project("ws", "BETA", "Beta Tools")
+        first = server.state.add_repo("ws", "first", project="ALPHA")
+        server.state.add_repo("ws", "second", project="BETA", is_private=True)
+        server.state.add_repo("ws", "third", project="ALPHA")
+        server.state.add_repo("ws", "loose")
+        assert first.project is not None
+        assert first.project.key == "ALPHA"
+        assert [repo.full_name for repo in project.repos] == ["ws/first", "ws/third"]
+        embedded = client.get("repositories/ws/first").json()["project"]
+        assert embedded["type"] == "project"
+        assert embedded["key"] == "ALPHA"
+        assert embedded["name"] == "Alpha Platform"
+        assert embedded["uuid"] == project.uuid
+        assert "links" in embedded
+        assert "project" not in client.get("repositories/ws/loose").json()
+        listed = client.get("repositories/ws", params={"q": 'project.key="ALPHA"'}).json()
+        assert [item["slug"] for item in listed["values"]] == ["first", "third"]
+        page = client.get(
+            "repositories/ws", params={"q": 'project.key="ALPHA"', "pagelen": 1}
+        ).json()
+        assert [item["slug"] for item in page["values"]] == ["first"]
+        assert [item["slug"] for item in client.get(page["next"]).json()["values"]] == ["third"]
+        none = client.get("repositories/ws", params={"q": 'project.key="NOPE"'}).json()
+        assert none["values"] == []
+        assert client.get("workspaces/ws/projects/ALPHA").json()["has_publicly_visible_repos"]
+        assert not client.get("workspaces/ws/projects/BETA").json()["has_publicly_visible_repos"]
+
+
+def test_repository_project_must_exist_in_its_workspace() -> None:
+    """Assigning a repository to an unregistered project fails at fixture time."""
+    state = State()
+    state.add_project("other", "ALPHA", "Foreign")
+    with pytest.raises(LookupError, match="no project"):
+        state.add_repo("ws", "repo", project="ALPHA")
+
+
+def test_snapshot_restores_projects_and_assignments() -> None:
+    """A restored world serves the same projects and repository assignments."""
+    state = State()
+    state.add_project("ws", "ALPHA", "Alpha Platform", description="core")
+    state.add_repo("ws", "repo", project="ALPHA")
+    restored = State()
+    restored.restore(json.loads(json.dumps(state.snapshot())))
+    assert restored._projects["ws/ALPHA"].name == "Alpha Platform"
+    assert [repo.full_name for repo in restored._projects["ws/ALPHA"].repos] == ["ws/repo"]
+    with Server(restored) as server:
+        body = httpx.get(server.url + "/repositories/ws/repo").json()
+        assert body["project"]["key"] == "ALPHA"

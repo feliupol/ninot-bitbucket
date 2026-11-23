@@ -7,7 +7,10 @@ pub mod state;
 
 pub use model::{
     BranchRef, BuildStatus, CloneLink, HtmlLink, MainBranch, Participant, PrAuthor, PrEndpoint,
-    PrLinks, PullRequest, RepoLinks, RepoRef, Repository, RepositoryResponse, User,
+    PrLinks, Project, ProjectLinks, ProjectRef, ProjectResponse, PullRequest, RepoLinks, RepoRef,
+    Repository, RepositoryResponse, User,
 };
 pub use server::{Server, StartError};
-pub use state::{AppliedFault, FaultRule, RequestRecord, SharedState, SnapshotError, State};
+pub use state::{
+    AppliedFault, FaultRule, ProjectHandle, RequestRecord, SharedState, SnapshotError, State,
+};
