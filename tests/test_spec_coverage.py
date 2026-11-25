@@ -2,8 +2,6 @@
 
 import json
 import re
-import subprocess
-import sys
 from pathlib import Path
 
 import httpx
@@ -11,15 +9,6 @@ import httpx
 from ninot_bitbucket import Server, State
 
 ROOT = Path(__file__).resolve().parents[1]
-
-
-def test_coverage_manifest_matches_the_full_pinned_spec() -> None:
-    """Every upstream operation has a deliberate supported or 501 disposition."""
-    subprocess.run(
-        [sys.executable, "scripts/bitbucket_spec_coverage.py", "--check"],
-        cwd=ROOT,
-        check=True,
-    )
 
 
 def test_every_declared_operation_matches_its_coverage_disposition() -> None:

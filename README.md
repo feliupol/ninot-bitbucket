@@ -29,12 +29,6 @@ through to 501, and unsupported operations return 501.
 
 Unknown operations return HTTP 501. This service models the listed protocol behavior, rather than an entire production installation.
 
-To refresh the upstream snapshot and coverage map, run:
-
-```bash
-python3 scripts/bitbucket_spec_coverage.py --update-upstream
-```
-
 New upstream operations default to `unsupported`. When adding a handler, change its entry to
 `supported` and add protocol coverage for its behavior.
 
